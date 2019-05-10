@@ -2,17 +2,28 @@
 
 import requests
 import sys
+import re
+import json
 
-if not sys.argv[0]:
-    print('no argument provided')
 
 def main():
-    pwnedurl = 'https://haveibeenpwned.com/api/breachedaccount/'
-    headers = {'User-Agent': 'Porridge-Checker-for-Healthy-Minds'}
-    usage = ''
-    email = ''
-    req = requests.get(pwnedurl + email, headers=headers, verify=False)
-    print(req.content)
+    try:
+        if sys.argv[1]:
+            #pwnedurl = 'https://haveibeenpwned.com/api/breachedaccount/'
+            pwnedurl = 'https://haveibeenpwned.com/api/v2/breachedaccount/'
+            headers = {'User-Agent': 'Porridge-Checker-for-Healthy-Minds'}
+
+            with open(sys.argv[1]) as emails:
+                for email in emails:
+                    if re.match(r'[^@]+@[^@]+\.[^@]+', email):
+                        print(email)
+                        #req = requests.get(pwnedurl + email, headers=headers, verify=False)
+                        req = requests.get(pwnedurl + email, headers=headers, verify=False)
+                        print(req.content)
+
+
+    except Exception as e:
+        print('Please provide file with email column.')
 
 
 if __name__ == "__main__":
