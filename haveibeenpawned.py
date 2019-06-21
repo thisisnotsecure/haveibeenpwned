@@ -16,8 +16,6 @@ def main():
             with open(sys.argv[1]) as emails:
                 for email in emails:
                     if re.match(r'[^@]+@[^@]+\.[^@]+', email):
-                        print(email)
-                        #req = requests.get(pwnedurl + email, headers=headers, verify=False)
                         req = requests.get(pwnedurl + email, headers=headers, verify=False)
                         print(req.content)
 
